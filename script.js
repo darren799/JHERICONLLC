@@ -23,18 +23,19 @@ if (SITE_CONFIG.businessEmail) {
   const emailLink = document.createElement('a');
   emailLink.href = `mailto:${SITE_CONFIG.businessEmail}`;
   emailLink.textContent = SITE_CONFIG.businessEmail;
-  emailNode.replaceWith(emailLink);
+  if (emailNode) emailNode.replaceWith(emailLink);
 }
 if (SITE_CONFIG.businessPhone) {
   const phoneNode = document.querySelector('#phone-display');
   const phoneLink = document.createElement('a');
   phoneLink.href = `tel:${SITE_CONFIG.businessPhone.replace(/[^+\d]/g, '')}`;
   phoneLink.textContent = SITE_CONFIG.businessPhone;
-  phoneNode.replaceWith(phoneLink);
+  if (phoneNode) phoneNode.replaceWith(phoneLink);
 }
 
 document.querySelectorAll('[data-program]').forEach(link => link.addEventListener('click', () => {
-  document.querySelector('#program-select').value = link.dataset.program;
+  const select = document.querySelector('#program-select');
+  if (select) select.value = link.dataset.program;
 }));
 
 function prepareEmail(form, subject, content, feedback) {
@@ -50,7 +51,7 @@ function prepareEmail(form, subject, content, feedback) {
   window.location.href = mailto;
 }
 
-document.querySelector('#interest-form').addEventListener('submit', event => {
+document.querySelector('#interest-form')?.addEventListener('submit', event => {
   event.preventDefault();
   const f = event.currentTarget;
   const data = new FormData(f);
@@ -59,7 +60,7 @@ document.querySelector('#interest-form').addEventListener('submit', event => {
   prepareEmail(f, `JHERICON training interest - ${data.get('program')}`, content, document.querySelector('#interest-feedback'));
 });
 
-document.querySelector('#contact-form').addEventListener('submit', event => {
+document.querySelector('#contact-form')?.addEventListener('submit', event => {
   event.preventDefault();
   const f = event.currentTarget;
   const data = new FormData(f);
