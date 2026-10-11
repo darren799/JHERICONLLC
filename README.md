@@ -16,3 +16,9 @@ Edit `script.js` under `SITE_CONFIG` and enter the verified business email and p
 
 ## Verify before publishing claims
 The company capability statement is a draft. Veteran business certification, contracting eligibility, UEI/CAGE, and exact registered NAICS codes need verification. The site does not present those claims as certified. JHERICON currently operates as an LLC and is not represented as tax-exempt.
+
+## v5 updates
+- Website now describes JHERICON as an SDVOSB-certified business, as confirmed by the owner.
+- Government Services displays all five NAICS codes from the capability statement.
+- No UEI or CAGE code is displayed.
+- Check the exact legal certification wording and company registrations against official records before procurement use.
