@@ -1,25 +1,26 @@
-# JHERICON LLC — Website Starter
+# JHERICON LLC — Website v2 (Capability Statement Edition)
 
-A responsive, accessible, single-page website for JHERICON LLC. It presents both commercial IT services and an educational/community mission without claiming current nonprofit status.
+A GitHub Pages-ready static website updated from **Jhericon-LLC-Capability-Statement-DRAFT (1).docx**.
 
-## Open it
-Double-click `index.html` to view locally in a browser. All three files must remain in the same folder. An internet connection is optional; it improves typography by loading Google Fonts, but fallback fonts are provided.
+## Upload to GitHub
+Upload `index.html`, `styles.css`, `script.js`, and the `assets` folder to the **root** of the GitHub repository. Preserve `assets/jhericon-logo.png`. In Settings → Pages, choose Deploy from a branch, `main`, `/ (root)`.
 
-## Customize
-1. Open `script.js` and set `SITE_CONFIG.businessEmail` and `SITE_CONFIG.businessPhone` to verified business details. Until an email is configured, forms inform users they cannot prepare an email inquiry.
-2. In `index.html`, replace the proposed training topics with actual approved offerings, and edit company mission, services, and legal statements if circumstances change.
-3. Update colors and layout in `styles.css`.
-4. Once a domain is registered, point it at a hosting provider such as GitHub Pages, Netlify, or Cloudflare Pages. Upload `index.html`, `styles.css`, and `script.js` together.
+## Features
+- Company brand/logo from the attached capability statement
+- Core competencies (9 service areas)
+- AI & emerging technology capabilities
+- Government customers and draft NAICS code information
+- Training interest form and contact form
+- Responsive navigation and mobile layouts
 
-## Important form behavior
-Forms use `mailto:` to launch the visitor's local email app after an address is configured. They **do not** store or transmit data automatically. Visitors must send the drafted email themselves, and email applications may not be configured on every device. For real training enrollment, add a securely hosted backend or privacy-conscious form service, confirmation messages, a published privacy policy, and appropriate data-handling practices before collecting applicant information. Do not claim students have registered until a functioning enrollment system is deployed.
+## IMPORTANT: Validate draft facts
+The capability statement is marked as a **draft**. Do not represent the service-disabled veteran-owned status, SBA/VetCert status, UEI, CAGE, years of experience, corporate history, headquarters, or NAICS registrations as verified until confirmed. The website deliberately makes no unsupported certification or set-aside eligibility assertions.
 
-## Legal positioning
-JHERICON LLC is described as a for-profit LLC with a long-term nonprofit aspiration, not as a current nonprofit or 501(c)(3). Do not add donation or tax-deductibility claims without verifying legal status.
+## Set contact information
+Open `script.js` and set `SITE_CONFIG.businessEmail` and `SITE_CONFIG.businessPhone`. Until an email is configured, inquiry forms will not send or store responses. After configuration, forms open an email draft in the visitor's email application. This is **not** online enrollment or a hosted registration backend.
 
-## Future upgrades
-- Actual class catalog, schedules, tuition, and instructor profiles
-- Real hosted registration with consent and privacy notice
-- Business inquiry CRM integration and spam prevention
-- Analytics and search engine optimization
-- Dedicated pages for program partnerships and impact
+## Hosting
+No build process or dependencies. Open `index.html` locally or host as a static site on GitHub Pages.
+
+## Future work
+Verify company registrations, service offerings, course availability, prices, contact info and official policies; connect a real form backend when ready.
