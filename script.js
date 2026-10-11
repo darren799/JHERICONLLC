@@ -1,7 +1,7 @@
 /* Configure this when JHERICON's business email and phone are finalized. */
 const SITE_CONFIG = {
   businessEmail: '', // Example: info@yourdomain.com
-  businessPhone: ''  // Example: (555) 555-1234
+  businessPhone: '(571) 220-1280'  // JHERICON LLC business phone
 };
 
 const menuButton = document.querySelector('.menu-toggle');
