@@ -1,25 +1,22 @@
-/* JHERICON LLC business contact configuration. */
+/* Public contact details. The forms prepare an email draft; they do not submit automatically. */
 const SITE_CONFIG = {
   businessEmail: 'pjreed5@jhericon.com',
-  businessPhone: '(571) 220-1280'
+  businessPhone: '(571) 220-1280'  // JHERICON LLC business phone
 };
 
 const menuButton = document.querySelector('.menu-toggle');
 const navigation = document.querySelector('#primary-nav');
-if (menuButton && navigation) {
-  menuButton.addEventListener('click', () => {
-    const isOpen = navigation.classList.toggle('is-open');
-    menuButton.setAttribute('aria-expanded', String(isOpen));
-    menuButton.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation');
-  });
-  navigation.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
-    navigation.classList.remove('is-open');
-    menuButton.setAttribute('aria-expanded', 'false');
-    menuButton.setAttribute('aria-label', 'Open navigation');
-  }));
-}
-const yearNode = document.querySelector('#year');
-if (yearNode) yearNode.textContent = String(new Date().getFullYear());
+menuButton.addEventListener('click', () => {
+  const isOpen = navigation.classList.toggle('is-open');
+  menuButton.setAttribute('aria-expanded', String(isOpen));
+  menuButton.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation');
+});
+navigation.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+  navigation.classList.remove('is-open');
+  menuButton.setAttribute('aria-expanded', 'false');
+  menuButton.setAttribute('aria-label', 'Open navigation');
+}));
+document.querySelector('#year').textContent = String(new Date().getFullYear());
 
 if (SITE_CONFIG.businessEmail) {
   const emailNode = document.querySelector('#email-display');
@@ -41,32 +38,39 @@ document.querySelectorAll('[data-program]').forEach(link => link.addEventListene
   if (select) select.value = link.dataset.program;
 }));
 
-function prepareEmail(form, subject, content, feedback) {
+async function submitInquiry(event, kind, feedbackId) {
+  event.preventDefault();
+  const form = event.currentTarget;
   if (!form.reportValidity()) return;
-  if (!SITE_CONFIG.businessEmail) {
-    feedback.textContent = 'The JHERICON business email has not been configured yet. Please check back when contact details are published.';
+  const feedback = document.getElementById(feedbackId);
+  const button = form.querySelector('button[type="submit"]');
+  const originalText = button.textContent;
+  feedback.classList.remove('error', 'success');
+  feedback.textContent = 'Sending your inquiry...';
+  button.disabled = true;
+  button.textContent = 'Sending...';
+  const values = Object.fromEntries(new FormData(form).entries());
+  values.kind = kind;
+  values.consent = kind === 'training' ? Boolean(form.querySelector('[name="consent"]')?.checked) : undefined;
+  try {
+    const response = await fetch('/api/inquiry', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(values)
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(result.error || 'Your message could not be sent.');
+    feedback.classList.add('success');
+    feedback.textContent = 'Thank you! Your inquiry was sent to JHERICON. We will follow up using the contact information you provided.';
+    form.reset();
+  } catch (err) {
     feedback.classList.add('error');
-    return;
+    feedback.textContent = `${err.message} You can also email pjreed5@jhericon.com directly.`;
+  } finally {
+    button.disabled = false;
+    button.textContent = originalText;
   }
-  const mailto = `mailto:${SITE_CONFIG.businessEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(content)}`;
-  feedback.classList.remove('error');
-  feedback.textContent = 'Your email application should open with a draft. Review and send the message there; no information was submitted through this website.';
-  window.location.href = mailto;
 }
 
-document.querySelector('#interest-form')?.addEventListener('submit', event => {
-  event.preventDefault();
-  const f = event.currentTarget;
-  const data = new FormData(f);
-  const name = `${data.get('firstName')} ${data.get('lastName')}`;
-  const content = `Training interest inquiry\n\nName: ${name}\nEmail: ${data.get('email')}\nPhone: ${data.get('phone') || 'Not provided'}\nLearning preference: ${data.get('delivery')}\nArea of interest: ${data.get('program')}\nLearning goals: ${data.get('message') || 'Not provided'}\n\nI understand this is an inquiry, not enrollment in a confirmed class.`;
-  prepareEmail(f, `JHERICON training interest - ${data.get('program')}`, content, document.querySelector('#interest-feedback'));
-});
-
-document.querySelector('#contact-form')?.addEventListener('submit', event => {
-  event.preventDefault();
-  const f = event.currentTarget;
-  const data = new FormData(f);
-  const content = `General inquiry\n\nName: ${data.get('name')}\nEmail: ${data.get('email')}\nType: ${data.get('type')}\n\nMessage:\n${data.get('message')}`;
-  prepareEmail(f, `JHERICON inquiry - ${data.get('type')}`, content, document.querySelector('#contact-feedback'));
-});
+document.querySelector('#contact-form')?.addEventListener('submit', event => submitInquiry(event, 'contact', 'contact-feedback'));
+document.querySelector('#interest-form')?.addEventListener('submit', event => submitInquiry(event, 'training', 'interest-feedback'));

@@ -41,3 +41,7 @@
 @media(max-width:1050px){.hero-grid{grid-template-columns:1fr;max-width:720px;gap:40px;padding-block:60px 45px}.hero-art{min-height:470px}.hero-lead{max-width:680px}}
 @media(max-width:600px){.hero-grid{padding-top:44px}.hero-art{min-height:380px}.visual-panel{width:calc(100% - 22px)}.chip-top{right:0}.chip-bottom{left:0}.floating-chip{max-width:60%}.hero-foot{line-height:1.6}}
 @media(max-width:420px){.hero-art{min-height:350px}.visual-panel{width:100%}.code-area{padding:19px}.floating-chip{position:relative;max-width:100%;margin:10px 0;top:auto;right:auto;bottom:auto;left:auto}.hero-art{display:flex;flex-direction:column;justify-content:center}.orbit{display:none}}
+
+/* Hidden honeypot field for automated submissions */
+.honey-field { position:absolute!important; left:-10000px!important; width:1px!important; height:1px!important; opacity:0!important; pointer-events:none!important;}
+.form-feedback.success {color:#066047;}
