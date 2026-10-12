@@ -1,22 +1,25 @@
-/* Configure this when JHERICON's business email and phone are finalized. */
+/* JHERICON LLC business contact configuration. */
 const SITE_CONFIG = {
-  businessEmail: '', // Example: info@yourdomain.com
-  businessPhone: '(571) 220-1280'  // JHERICON LLC business phone
+  businessEmail: 'pjreed5@jhericon.com',
+  businessPhone: '(571) 220-1280'
 };
 
 const menuButton = document.querySelector('.menu-toggle');
 const navigation = document.querySelector('#primary-nav');
-menuButton.addEventListener('click', () => {
-  const isOpen = navigation.classList.toggle('is-open');
-  menuButton.setAttribute('aria-expanded', String(isOpen));
-  menuButton.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation');
-});
-navigation.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
-  navigation.classList.remove('is-open');
-  menuButton.setAttribute('aria-expanded', 'false');
-  menuButton.setAttribute('aria-label', 'Open navigation');
-}));
-document.querySelector('#year').textContent = String(new Date().getFullYear());
+if (menuButton && navigation) {
+  menuButton.addEventListener('click', () => {
+    const isOpen = navigation.classList.toggle('is-open');
+    menuButton.setAttribute('aria-expanded', String(isOpen));
+    menuButton.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation');
+  });
+  navigation.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+    navigation.classList.remove('is-open');
+    menuButton.setAttribute('aria-expanded', 'false');
+    menuButton.setAttribute('aria-label', 'Open navigation');
+  }));
+}
+const yearNode = document.querySelector('#year');
+if (yearNode) yearNode.textContent = String(new Date().getFullYear());
 
 if (SITE_CONFIG.businessEmail) {
   const emailNode = document.querySelector('#email-display');
