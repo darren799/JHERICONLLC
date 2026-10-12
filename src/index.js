@@ -37,7 +37,15 @@ export default {
     };
     if (kind === 'training' && (!details['Learning preference'] || !details['Area of interest'] || p.consent !== true)) return json({error:'Complete the required training fields.'},400);
     if (kind === 'contact' && (!details['Inquiry type'] || !details['Message'])) return json({error:'Complete all required fields.'},400);
-    if (!env.RESEND_API_KEY || !env.FORM_FROM_EMAIL) return json({error:'The website inquiry service is not yet configured. Please email us directly.'},503);
+   if (!env.RESEND_API_KEY || !env.FORM_FROM_EMAIL) {
+  console.error('Missing email bindings:', {
+    resendKeyPresent: Boolean(env.RESEND_API_KEY),
+    fromEmailPresent: Boolean(env.FORM_FROM_EMAIL)
+  });
+  return json({
+    error: 'The website inquiry service is not yet configured. Please email us directly.'
+  }, 503);
+}
     const lines = [['Inquiry category',kind],['Name',name],['Email',email],...Object.entries(details)];
     const html = '<h2>JHERICON '+(kind==='training'?'Training Interest':'Contact Inquiry')+'</h2><dl>'+lines.map(([k,v])=>'<dt><strong>'+escapeHtml(k)+'</strong></dt><dd style="white-space:pre-wrap">'+escapeHtml(v)+'</dd>').join('')+'</dl>';
     const subject = 'JHERICON '+(kind==='training'?'Training Interest':'Contact Inquiry')+' - '+name;
